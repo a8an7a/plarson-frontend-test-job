@@ -1,0 +1,343 @@
+@import 'reset';
+
+// Основные цвета чата
+:root {
+    --default-background-color: #ffffff;
+    --status-indicator-color: #0ac630;
+    --dim-element-color: #bfbfbf;
+    --main-color: #ed143d;
+}
+
+body {
+    height: 100%;
+    font-size: 16px;
+    font-family:"Roboto", -apple-system, BlinkMacSystemFont,
+                "Apple Color Emoji", "Segoe UI", Oxygen, Ubuntu, Cantarell,
+                "Fira Sans", "Droid Sans",
+                "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+    color: #333333;
+}
+
+// Определение основного расположения элементов чата и установка высоты блока во всю высоту экрана
+.container {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    min-height: 100vh;
+}
+
+// Стилизация шапки чата
+.header {
+    z-index: 1;
+    width: 100%;
+    min-height: 50px;
+    background-color: var(--default-background-color);
+    border-bottom: 1px solid #3333334d;
+    box-shadow: 0 2px 24px rgba(114, 114, 114, 0.2);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__logo img {
+        width: 25px;
+    }
+
+    &__title {
+        font-weight: 600;
+        padding: 0 0.325rem;
+    }
+}
+
+.chat-body {
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+
+    // Стилизация списка пользователей чата
+    &__sidebar {
+        z-index: 1;
+        min-width: 200px;
+        background-color: var(--default-background-color);
+        box-shadow: 2px 0px 24px rgba(114, 114, 114, 0.2);
+
+        overflow: hidden;
+
+        &__cover {
+            height: 100%;
+            max-height: 100%;
+            width: 100%;
+            padding: .5rem .125rem;
+
+            overflow-y: auto;
+        }
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+
+        padding: 0.3625rem;
+        border-radius: 0.75rem;
+
+        font-size: 12px;
+        cursor: pointer;
+
+        // Стилизация активного чата с пользователем в списке элементов
+        &_active {
+            color: var(--default-background-color);
+            background-color: var(--main-color) !important;
+        }
+
+        &_active .info__time {
+            color: var(--default-background-color) !important;
+        }
+
+        &_active .status::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0.05rem;
+            right: 0.05rem;
+            width: 0.575rem;
+            height: 0.575rem;
+            border-radius: 50%;
+            border: 1px solid var(--default-background-color);
+            background-color: var(--status-indicator-color);
+        }
+    }
+
+    &__item:hover {
+        background-color: #e8e8e8;
+        transition: background-color 0.1s ease-in-out;
+    }
+
+    // Стилизация основного блока чата
+    &__main {
+        width: 100%;
+        height: 100%;
+        background: #ebebeb;
+
+        &__cover {
+            display: flex;
+            flex-direction: column;
+
+            height: 100%;
+            max-height: 100%;
+            width: 100%;
+        }
+    }
+
+    &__messages-group {
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+        max-width: 728px;
+
+        margin: 0 auto;
+        padding: 1rem 1rem 0 1.125rem;
+    }
+
+    &__messages {
+        height: 100%;
+        max-height: 100%;
+
+        overflow-y: auto;
+    }
+
+    &__message {
+        display: flex;
+
+        max-width: 480px;
+        margin: 5px 0;
+        border-radius: 0.75rem;
+        padding: 0.3125rem 0.5rem 0.375rem;
+        box-shadow: 0 2px 2px rgba(114, 114, 114, 0.2);
+    }
+
+    &__messages-compose {
+        width: 100%;
+        background-color: transparent;
+    }
+
+    // Стилизация блока отправки сообщений
+    &__form-cover {
+        position: relative;
+
+        display: flex;
+        align-items: center;
+
+        width: 100%;
+        max-width: 728px;
+
+        margin: 0 auto;
+    }
+
+    &__form-cover::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(51, 51, 51, 0) 0%, rgba(51, 51, 51, 0.4) 2%, rgba(51, 51, 51, 0.4) 98%, rgba(51, 51, 51, 0) 100%);
+    }
+}
+
+// Стилизация элементов списка пользователей
+.status {
+    position: relative;
+    margin-right: 5px;
+
+    &__image {
+        width: 32px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}
+
+.info {
+    width: 100%;
+
+    &__title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__user-name {
+        font-weight: 600;
+    }
+
+    &__time {
+        color: var(--dim-element-color);
+        font-size: 10px;
+    }
+}
+
+// Стилизация поля вввода и кнопки отправки сообщения
+.send-form {
+    width: 100%;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    &__input {
+        width: 100%;
+        height: 56px;
+        max-width: calc(100% - 4rem);
+        padding: 0.3125rem 0.8rem 0.375rem;
+
+        color: #333;
+        
+        border: none;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 2px rgba(114, 114, 114, 0.2);
+
+        outline: none;
+    }
+
+    &__button {
+        margin: 0;
+        padding: 1px;
+        border-radius: 50%;
+        background-color: #333;
+        border: 2px solid var(--default-background-color);
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    &__button:hover {
+        background-color: #333333b3;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    &__image {
+        width: 3rem;
+    }
+}
+
+// Выравнивание и стилизация полученных и отправленных сообщений
+.send {
+    color: var(--default-background-color);
+    align-self: flex-end;
+    background-color: var(--main-color);
+}
+
+.received {
+    align-self: flex-start;
+    background-color: var(--default-background-color);
+}
+
+// Отображаемое время отправки сообщений
+.time {
+    font-size: 12px;
+    color: var(--dim-element-color);
+
+    position: relative;
+    top: 0.075rem;
+    float: right;
+    line-height: 1.35;
+    display: flex;
+    align-self: flex-end;
+    padding-left: 0.525rem;
+}
+
+// Стилизация подвала чата
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 100px;
+    background-color: var(--default-background-color);
+    border-top: 1px solid #3333334d;
+    box-shadow: 0 -2px 10px rgba(114, 114, 114, 0.2);
+
+    &__subtitle {
+        font-weight: 600;
+    }
+
+    &__link {
+        color: #007bff;
+        text-decoration: none;
+        transition: all 0.1s ease-in-out;
+    }
+
+    &__link:hover {
+        color: #0c6fda;
+        text-decoration: underline;
+        transition: all 0.1s ease-in-out;
+    }
+}
+
+// Стилизация полосы прокрутки
+.custom-scroll {
+
+    &::-webkit-scrollbar {
+        width: 0.375rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        margin-right: 0.125rem;
+        border-radius: 0.375rem;
+        background-color: rgba(90, 90, 90, 0);
+        box-shadow: 0 0 1px rgb(255 255 255 / 1%);
+    }
+
+    &:hover::-webkit-scrollbar-thumb, 
+    &:focus::-webkit-scrollbar-thumb, 
+    &:focus-within::-webkit-scrollbar-thumb {
+        background-color: rgba(90, 90, 90, 0.5);
+    }
+
+    &::-webkit-scrollbar-track {
+        margin: 0.125rem 0;
+    }
+}
